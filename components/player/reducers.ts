@@ -1,4 +1,4 @@
-import { Playlist, PlaylistMessage } from '../Common/Messages';
+import { Playlist, PlaylistMessage } from '../common/Messages';
 
 export function playlistReducer(state: Playlist, action: PlaylistMessage): Playlist {
 	switch (action.type) {
