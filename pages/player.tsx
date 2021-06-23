@@ -1,42 +1,13 @@
-import { Grid, makeStyles, Theme, createStyles } from '@material-ui/core';
+import dynamic from 'next/dynamic'
 import React, { FC } from 'react';
 
-import RoomCodeDisplay from '../components/player/RoomCodeDisplay';
-import UserIsland from '../components/player/UserIsland';
-import VideoDisplay from '../components/player/VideoDisplay';
-import { PlaylistDispatchContext } from '../components/player/Context';
-import { useLogic } from '../components/player/hooks';
-
-const useStyles = makeStyles((theme: Theme) => 
-	createStyles({
-		videoSection: {
-            flexBasis: `calc(80% - ${theme.spacing(1)}px)`,
-        },
-        bottomSection: {
-            flexBasis: `calc(20% - ${theme.spacing(1)}px)`,
-        },
-	})
+const PlayerApp = dynamic(
+    () => import('../components/player/PlayerApp'),
+    { ssr: false }
 );
 
-const PlayerApp: FC<{}> = () => {
-    const connectionStatus = useLogic();
-    const classes = useStyles();
-
-    return (
-        <PlaylistDispatchContext.Provider value={connectionStatus.playlistDispatch}>
-            <div className={classes.videoSection}>
-                <VideoDisplay playlist={connectionStatus.playlist} />
-            </div>
-            <div className={classes.bottomSection}>
-                <Grid container>
-                    <RoomCodeDisplay roomCode={connectionStatus.roomCode} />
-                    {connectionStatus.connectedUsers.map(metadata =>
-                        <UserIsland name={metadata.friendlyName} key={metadata.friendlyName} />
-                    )}
-                </Grid>
-            </div>
-        </PlaylistDispatchContext.Provider>
-    );
+const Player: FC<{}> = () => {
+    return <PlayerApp />;
 };
 
-export default PlayerApp;
+export default Player;

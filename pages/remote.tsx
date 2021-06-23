@@ -1,24 +1,13 @@
+import dynamic from 'next/dynamic'
 import React, { FC } from 'react';
-import { useLogic } from '../components/remote/hooks';
-import ConnectionPanel from '../components/remote/ConnectionPanel';
-import MainRemoteInterface from '../components/remote/MainRemoteInterface';
 
-const RemoteApp: FC<{}> = () => {
-	const {
-        isConnected,
-        friendlyName,
-		connectToPlayer,
-		sendMessage,
-	} = useLogic();
+const RemoteApp = dynamic(
+    () => import('../components/remote/RemoteApp'),
+    { ssr: false }
+);
 
-	if (!isConnected) {
-		return (
-			<ConnectionPanel connectToPlayer={connectToPlayer} />
-		);
-	}
-	return (
-		<MainRemoteInterface sendMessage={sendMessage} />
-	);
+const Remote: FC<{}> = () => {
+    return <RemoteApp />;
 };
 
-export default RemoteApp;
+export default Remote;
