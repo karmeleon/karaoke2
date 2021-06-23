@@ -15,6 +15,7 @@ import MusicNote from '@material-ui/icons/MusicNote';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { FC, useState } from 'react';
 import { ConnectionStatus } from './hooks';
+import { Video } from '../../types/api';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -61,21 +62,18 @@ interface Props {
 	sendMessage: ConnectionStatus['sendMessage'];
 }
 
-interface SearchResult {
-	displayText: string;
-	videoId: string;
-}
-
 const MainRemoteInterface: FC<Props> = ({ sendMessage }) => {
 	const classes = useStyles();
-	const [searchResults, setSearchResults] = useState<SearchResult[]>([
+	const [searchResults, setSearchResults] = useState<Video[]>([
 		{
 			displayText: 'Despacito',
 			videoId: 'MwQT7b_Dtac',
+			duration: 69,
 		},
 		{
 			displayText: 'All Star',
 			videoId: 'N-elJ7vQl54',
+			duration: 69,
 		},
 	]);
 
