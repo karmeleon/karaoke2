@@ -97,15 +97,23 @@ const MainRemoteInterface: FC<Props> = ({ sendMessage }) => {
 				</Toolbar>
 			</AppBar>
 			<List>
-				{searchResults.map(result =>
-					<ListItem button key={result.videoId} onClick={() => sendMessage({
-						type: 'playlist.queue',
-						song: result.videoId,
-					})}>
-						<ListItemIcon><MusicNote /></ListItemIcon>
+				{searchResults.map((result) => (
+					<ListItem
+						button
+						key={result.videoId}
+						onClick={() =>
+							sendMessage({
+								type: 'playlist.queue',
+								song: result.videoId,
+							})
+						}
+					>
+						<ListItemIcon>
+							<MusicNote />
+						</ListItemIcon>
 						<ListItemText primary={result.displayText} />
-					</ListItem>,
-				)}
+					</ListItem>
+				))}
 			</List>
 		</>
 	);

@@ -4,7 +4,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { makeStyles, Theme, createStyles } from '@material-ui/core';
 import type { AppProps } from 'next/app';
 
-const useStyles = makeStyles((theme: Theme) => 
+const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		fullscreenContainer: {
 			position: 'absolute',
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			flexDirection: 'column',
 			justifyContent: 'space-between',
 		},
-	})
+	}),
 );
 
 const theme = createMuiTheme({
@@ -37,6 +37,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 			</ThemeProvider>
 		</div>
 	);
-};
+}
 
-export default MyApp
+export default MyApp;

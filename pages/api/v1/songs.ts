@@ -17,10 +17,7 @@ function parseYoutubeDuration(duration: string): number {
 	return parseInt(match[1], 10) * 60 + parseInt(match[2], 10);
 }
 
-export default async function handler(
-	req: NextApiRequest,
-	res: NextApiResponse<Video[]>,
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Video[]>) {
 	// query youtube
 	const searchResults = await youtube.search.list({
 		part: ['id', 'snippet'],
@@ -53,7 +50,7 @@ export default async function handler(
 
 	const idToDuration = new Map<string, string>();
 
-	videoDetails.data.items.forEach(video => {
+	videoDetails.data.items.forEach((video) => {
 		if (video.id != null && video.contentDetails?.duration != null) {
 			idToDuration.set(video.id, video.contentDetails.duration);
 		}
@@ -61,16 +58,17 @@ export default async function handler(
 
 	// parse it into the response object
 	// i hate the youtube library's typedefs SO MUCH
-	res.json(searchResults.data.items.reduce<Video[]>((acc, result) => {
-		if (result.id?.videoId != null && result.snippet?.title != null && result.id?.videoId != null) {
-
-			const newItem = {
-				videoId: result.id?.videoId,
-				displayText: result.snippet?.title || 'no title',
-				duration: parseYoutubeDuration(idToDuration.get(result.id.videoId) ?? '0'),
-			};
-			return [...acc, newItem];
-		}
-		return acc;
-	}, []));
+	res.json(
+		searchResults.data.items.reduce<Video[]>((acc, result) => {
+			if (result.id?.videoId != null && result.snippet?.title != null && result.id?.videoId != null) {
+				const newItem = {
+					videoId: result.id?.videoId,
+					displayText: result.snippet?.title || 'no title',
+					duration: parseYoutubeDuration(idToDuration.get(result.id.videoId) ?? '0'),
+				};
+				return [...acc, newItem];
+			}
+			return acc;
+		}, []),
+	);
 }

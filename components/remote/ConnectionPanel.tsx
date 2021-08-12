@@ -1,19 +1,19 @@
 import React, { FC, useRef, useCallback } from 'react';
 import { Grid, Button, TextField, makeStyles, Theme, createStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme: Theme) => 
+const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		roomCodeInput: {
 			'& input': {
 				textTransform: 'uppercase',
 			},
 		},
-	})
+	}),
 );
 
 interface Props {
 	// Callback to connect the remote to a player with a given room code and display name.
-    connectToPlayer: (roomCode: string, friendlyName: string) => void,
+	connectToPlayer: (roomCode: string, friendlyName: string) => void;
 }
 
 const ConnectionPanel: FC<Props> = ({ connectToPlayer }) => {
@@ -57,12 +57,7 @@ const ConnectionPanel: FC<Props> = ({ connectToPlayer }) => {
 				/>
 			</Grid>
 			<Grid item xs={12}>
-				<Button
-					color="primary"
-					variant="contained"
-					fullWidth
-					onClick={buttonCallback}
-				>
+				<Button color="primary" variant="contained" fullWidth onClick={buttonCallback}>
 					Connect
 				</Button>
 			</Grid>

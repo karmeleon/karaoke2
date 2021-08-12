@@ -1,13 +1,10 @@
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
 import React, { FC } from 'react';
 
-const RemoteApp = dynamic(
-    () => import('../components/remote/RemoteApp'),
-    { ssr: false }
-);
+const RemoteApp = dynamic(() => import('../components/remote/RemoteApp'), { ssr: false });
 
 const Remote: FC<{}> = () => {
-    return <RemoteApp />;
+	return <RemoteApp />;
 };
 
 export default Remote;

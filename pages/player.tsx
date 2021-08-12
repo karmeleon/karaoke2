@@ -1,13 +1,10 @@
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
 import React, { FC } from 'react';
 
-const PlayerApp = dynamic(
-    () => import('../components/player/PlayerApp'),
-    { ssr: false }
-);
+const PlayerApp = dynamic(() => import('../components/player/PlayerApp'), { ssr: false });
 
 const Player: FC<{}> = () => {
-    return <PlayerApp />;
+	return <PlayerApp />;
 };
 
 export default Player;

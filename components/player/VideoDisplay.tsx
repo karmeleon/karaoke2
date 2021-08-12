@@ -16,11 +16,7 @@ const VideoDisplay: FC<Props> = ({ playlist }) => {
 		playlistDispatch({ type: 'playlist.dequeue' });
 	}, [playlistDispatch]);
 
-	return <ReactPlayer
-		url={`https://www.youtube.com/watch?v=${playlist[0]}`}
-		onEnded={onEnded}
-		playing
-	/>;
+	return <ReactPlayer url={`https://www.youtube.com/watch?v=${playlist[0]}`} onEnded={onEnded} playing />;
 };
 
 export default VideoDisplay;

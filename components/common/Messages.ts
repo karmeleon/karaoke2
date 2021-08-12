@@ -17,9 +17,6 @@ export interface PlaylistDequeueMessage {
 	type: 'playlist.dequeue';
 }
 
-export type PlaylistMessage =
-	PlaylistQueueMessage |
-	PlaylistOverwriteMessage |
-	PlaylistDequeueMessage;
+export type PlaylistMessage = PlaylistQueueMessage | PlaylistOverwriteMessage | PlaylistDequeueMessage;
 
 export type Message = PlaylistQueueMessage;

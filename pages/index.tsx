@@ -9,22 +9,12 @@ const AppSelector: FC<{}> = () => {
 	return (
 		<Grid container direction="column" justify="center" alignItems="center" spacing={2}>
 			<Grid item xs={3}>
-				<Button 
-					onClick={() => router.push('/player')}
-					color="primary"
-					variant="contained"
-					fullWidth
-				>
+				<Button onClick={() => router.push('/player')} color="primary" variant="contained" fullWidth>
 					Karaoke
 				</Button>
 			</Grid>
 			<Grid item xs={3}>
-				<Button
-					onClick={() => router.push('/remote')}
-					color="primary"
-					variant="contained"
-					fullWidth
-				>
+				<Button onClick={() => router.push('/remote')} color="primary" variant="contained" fullWidth>
 					Remote
 				</Button>
 			</Grid>

@@ -8,7 +8,7 @@ const AppSelector: FC<{}> = () => {
 	return (
 		<Grid container direction="column" justify="center" alignItems="center" spacing={2}>
 			<Grid item xs={3}>
-				<Button 
+				<Button
 					onClick={() => router.push('/player', undefined, { shallow: true })}
 					color="primary"
 					variant="contained"
