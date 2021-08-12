@@ -76,65 +76,67 @@ export function useLogic(): ConnectionStatus {
 
 		const remotes: RemotesState = {};
 
-		peer.on('connection', dataConnection => {
-			const metadata: ConnectionMetadata = dataConnection.metadata;
-			console.log(`new connection from ${metadata.id}`);
-
-			remotes[metadata.id] = {
-				metadata,
-				state: RemoteState.Connected,
-				joinTime: new Date(),
-				connection: dataConnection,
-			};
-
-			updateConnectedUsers(remotes);
-
-			dataConnection.on('data', (message: Message) => {
-				if (message.type.startsWith('playlist')) {
-					playlistDispatch(message);
-				} else {
-					console.warn(`Got an unhandled message: ${JSON.stringify(message)}`);
-				}
-			});
-
-			dataConnection.on('close', () => {
-				const remote = remotes[metadata.id];
-				// clean up after ourselves
-				if (remote.audioElement) {
-					remote.audioElement.srcObject = null;
-				}
-				if (remote.call) {
-					remote.call.close();
-				}
-				remote.connection.close();
-				delete remotes[metadata.id];
-
+		peer.on('open', () => {
+			peer.on('connection', dataConnection => {
+				const metadata: ConnectionMetadata = dataConnection.metadata;
+				console.log(`new connection from ${metadata.id}`);
+	
+				remotes[metadata.id] = {
+					metadata,
+					state: RemoteState.Connected,
+					joinTime: new Date(),
+					connection: dataConnection,
+				};
+	
 				updateConnectedUsers(remotes);
+	
+				dataConnection.on('data', (message: Message) => {
+					if (message.type.startsWith('playlist')) {
+						playlistDispatch(message);
+					} else {
+						console.warn(`Got an unhandled message: ${JSON.stringify(message)}`);
+					}
+				});
+	
+				dataConnection.on('close', () => {
+					const remote = remotes[metadata.id];
+					// clean up after ourselves
+					if (remote.audioElement) {
+						remote.audioElement.srcObject = null;
+					}
+					if (remote.call) {
+						remote.call.close();
+					}
+					remote.connection.close();
+					delete remotes[metadata.id];
+	
+					updateConnectedUsers(remotes);
+				});
 			});
-		});
-
-		peer.on('call', async call => {
-			const metadata: ConnectionMetadata = call.metadata;
-			console.log(`answering call from ${metadata.id}`);
-
-			const remote = remotes[metadata.id];
-			remote.call = call;
-
-			call.on('stream', stream => {
-				const audioElement = document.createElement('audio');
-				remote.audioElement = audioElement;
-				audioElement.srcObject = stream;
-				audioElement.play();
-				remote.state = RemoteState.AudioConnected;
+	
+			peer.on('call', async call => {
+				const metadata: ConnectionMetadata = call.metadata;
+				console.log(`answering call from ${metadata.id}`);
+	
+				const remote = remotes[metadata.id];
+				remote.call = call;
+	
+				call.on('stream', stream => {
+					const audioElement = document.createElement('audio');
+					remote.audioElement = audioElement;
+					audioElement.srcObject = stream;
+					audioElement.play();
+					remote.state = RemoteState.AudioConnected;
+				});
+	
+				call.answer();
 			});
-
-			call.answer();
 		});
 
 		return () => {
 			peer.destroy();
 		};
-	},        [roomCode, updateConnectedUsers]);
+	}, [roomCode, updateConnectedUsers]);
 
 	return {
 		connectedUsers,

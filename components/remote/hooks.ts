@@ -47,31 +47,33 @@ export function useLogic(): ConnectionStatus {
 			},
 		});
 
-        const connection = peer.connect(peerJSKey, { metadata });
-        peerConnection.current = connection;
+        peer.on('open', () => {
+            const connection = peer.connect(peerJSKey, { metadata });
+            peerConnection.current = connection;
 
-		const constraints = {
-			audio: {
-				channels: 1,
-				latency: 0.0,
-				echoCancellation: true,
-				noiseSuppression: true,
-			},
-			video: false,
-		}
+            const constraints = {
+                audio: {
+                    channels: 1,
+                    latency: 0.0,
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                },
+                video: false,
+            }
 
-		connection.on('open', () => {
-			navigator.mediaDevices.getUserMedia(constraints)
-				.catch(e => console.error(e))
-				.then(mediaStream => {
-					if (mediaStream != null) {
-						console.log('calling');
-                        peer.call(peerJSKey, mediaStream, { metadata });
-                        // We should have connected by this point
-                        setIsConnected(true);
-                        setFriendlyName(friendlyName);
-					}
-				});
+            connection.on('open', () => {
+                navigator.mediaDevices.getUserMedia(constraints)
+                    .catch(e => console.error(e))
+                    .then(mediaStream => {
+                        if (mediaStream != null) {
+                            console.log('calling');
+                            peer.call(peerJSKey, mediaStream, { metadata });
+                            // We should have connected by this point
+                            setIsConnected(true);
+                            setFriendlyName(friendlyName);
+                        }
+                    });
+            });
         });
     };
     
