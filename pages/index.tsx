@@ -1,5 +1,6 @@
 import { Button, Grid } from '@material-ui/core';
 import React, { FC } from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 const AppSelector: FC<{}> = () => {
@@ -7,18 +8,23 @@ const AppSelector: FC<{}> = () => {
 	const router = useRouter();
 
 	return (
-		<Grid container direction="column" justify="center" alignItems="center" spacing={2}>
-			<Grid item xs={3}>
-				<Button onClick={() => router.push('/player')} color="primary" variant="contained" fullWidth>
-					Karaoke
-				</Button>
+		<>
+			<Head>
+				<title>Karaoke app</title>
+			</Head>
+			<Grid container direction="column" justify="center" alignItems="center" spacing={2}>
+				<Grid item xs={3}>
+					<Button onClick={() => router.push('/player')} color="primary" variant="contained" fullWidth>
+						Karaoke
+					</Button>
+				</Grid>
+				<Grid item xs={3}>
+					<Button onClick={() => router.push('/remote')} color="primary" variant="contained" fullWidth>
+						Remote
+					</Button>
+				</Grid>
 			</Grid>
-			<Grid item xs={3}>
-				<Button onClick={() => router.push('/remote')} color="primary" variant="contained" fullWidth>
-					Remote
-				</Button>
-			</Grid>
-		</Grid>
+		</>
 	);
 };
 
